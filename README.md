@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/delonnewman/hash_delegator.svg?branch=master)](https://travis-ci.com/delonnewman/hash_delegator)
+
 # HashDelegator
 
 Provides delegation and basic validation to hashes.
