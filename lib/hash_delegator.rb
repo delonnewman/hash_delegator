@@ -3,22 +3,34 @@ require "hash_delegator/version"
 # Provides delegation and basic validation for Hashes
 class HashDelegator
   class << self
+    # Return required attributes or nil
+    #
+    # @return [Array, nil]
     def required_attributes
       return @required_attributes if @required_attributes
 
       superclass.required_attributes if superclass.respond_to?(:required_attributes)
     end
 
+    # Specifiy required attributes
+    #
+    # @param *attributes [Array
+    # @return [HashDelegator]
     def require(*attributes)
       if superclass.respond_to?(:required_attributes) && !superclass.required_attributes.nil?
         @required_attributes = superclass.required_attributes + attributes
       else
         @required_attributes = attributes
       end
-
       self
     end
 
+    # Specify the default value if the value is a Proc or a block is passed
+    # each hash's default_proc attribute will be set.
+    #
+    # @param value [Object] default value
+    # @param &block [Proc] default proc
+    # @return [HashDelegator]
     def default(value = nil, &block)
       if block
         @default_value = block
@@ -31,25 +43,26 @@ class HashDelegator
       else
         @default_value = value
       end
+      self
     end
 
+    # Return the default value
     def default_value
       return @default_value if @default_value
 
       superclass.default_value if superclass.respond_to?(:default_value)
     end
 
+    # Specify the key transformer
     def transform_keys(&block)
       @key_transformer = block
     end
 
+    # Return the key transformer
     def key_transformer
       return @key_transformer if @key_transformer
       
       superclass.key_transformer if superclass.respond_to?(:key_transformer)
-    end
-
-    def [](option)
     end
   end
 

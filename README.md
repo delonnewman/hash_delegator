@@ -1,8 +1,23 @@
 # HashDelegator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hash_delegator`. To experiment with that code, run `bin/console` for an interactive prompt.
+Provides delegation and basic validation to hashes.
 
-TODO: Delete this and the text above, and describe your gem
+## Synopsis
+
+```ruby
+class Person < HashDelegator
+  require :first_name, :last_name
+  transform_keys(&:to_sym)
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+end
+
+person = Person.new(first_name: "Mary", last_name: "Lamb", age: 32)
+person.age # => 32
+person.name # => "Mary Lamb"
+```
 
 ## Installation
 
@@ -20,25 +35,10 @@ Or install it yourself as:
 
     $ gem install hash_delegator
 
-## Usage
+## See Also
 
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hash_delegator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/hash_delegator/blob/master/CODE_OF_CONDUCT.md).
-
+- (Dry Struct)[https://dry-rb.org/gems/dry-struct]
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the HashDelegator project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/hash_delegator/blob/master/CODE_OF_CONDUCT.md).
