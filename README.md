@@ -17,6 +17,9 @@ end
 person = Person.new(first_name: "Mary", last_name: "Lamb", age: 32)
 person.age # => 32
 person.name # => "Mary Lamb"
+
+person.merge!(favorite_food: "Thai") # => NoMethodError
+person.merge(favorite_food: "Thai") # => { first_name: "Mary", last_name: "Lamb", age: 32 }
 ```
 
 ## Installation
@@ -38,6 +41,7 @@ Or install it yourself as:
 ## See Also
 
 - [Dry Struct](https://dry-rb.org/gems/dry-struct)
+- [Clojure Records](https://clojure.org/reference/datatypes#_deftype_and_defrecord)
 
 ## License
 
