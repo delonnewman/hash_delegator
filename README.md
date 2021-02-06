@@ -52,6 +52,7 @@ Or install it yourself as:
 
 - [Dry Struct](https://dry-rb.org/gems/dry-struct)
 - [Clojure Records](https://clojure.org/reference/datatypes#_deftype_and_defrecord)
+- [Delegator](https://rubyapi.org/3.0/o/delegator)
 
 ## License
 
