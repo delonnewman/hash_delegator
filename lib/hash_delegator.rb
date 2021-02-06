@@ -1,4 +1,5 @@
 require "hash_delegator/version"
+require 'set'
 
 # Provides delegation and basic validation for Hashes
 class HashDelegator
@@ -14,7 +15,7 @@ class HashDelegator
 
     # Specifiy required attributes
     #
-    # @param *attributes [Array
+    # @param *attributes [Array]
     # @return [HashDelegator]
     def require(*attributes)
       if superclass.respond_to?(:required_attributes) && !superclass.required_attributes.nil?
@@ -66,7 +67,7 @@ class HashDelegator
     end
   end
 
-  MUTATING_METHODS = [
+  MUTATING_METHODS = Set[
     :[]=,
     :clear,
     :delete,
@@ -83,8 +84,19 @@ class HashDelegator
     :default=,
     :default_proc=,
     :compare_by_identity,
-    :rehash
-  ].reduce(Hash.new(false)) { |h, method| h.merge!(method => true) }.freeze
+    :rehash,
+    :replace,
+    :initialize_copy,
+    :shift,
+    :store
+  ].freeze
+
+  CLOSED_METHODS = Set[
+    :compact,
+    :merge,
+    :except,
+    :slice
+  ].freeze
 
   def initialize(hash)
     raise "HashDelegator should not be initialized" if self.class == HashDelegator
@@ -106,7 +118,7 @@ class HashDelegator
     end
   end
 
-  def to_h
+  def to_hash
     @hash
   end
 
@@ -129,7 +141,12 @@ class HashDelegator
 
   def method_missing(method, *args, &block)
     return @hash[method] if @hash.key?(method)
-    return @hash.public_send(method, *args, &block) if hash_respond_to?(method)
+
+    if hash_respond_to?(method)
+      result = @hash.public_send(method, *args, &block)
+      return result unless CLOSED_METHODS.include?(method)
+      return self.class.new(result)
+    end
 
     raise NoMethodError, "undefined method `#{method}' for #{self}:#{self.class}"
   end
@@ -137,6 +154,6 @@ class HashDelegator
   private
 
   def hash_respond_to?(method)
-    !MUTATING_METHODS[method] && @hash.respond_to?(method)
+    !MUTATING_METHODS.include?(method) && @hash.respond_to?(method)
   end
 end

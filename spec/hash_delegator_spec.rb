@@ -85,18 +85,19 @@ RSpec.describe HashDelegator do
   it "should not respond to any mutable methods" do
     expect { Person.new(:name => "Peter", age: 32).merge!(:employee_id => 345) }.to raise_error(NoMethodError)
 
-    described_class::MUTATING_METHODS.keys.each do |method|
+    described_class::MUTATING_METHODS.each do |method|
       expect { Person.new(:name => "Janice", age: 21).public_send(method) }.to raise_error(NoMethodError)
     end
   end
 
   it "should respond to any non-mutating hash methods" do
-    person = Person.new(:name => "Peter", age: 32)
+    person = Person.new(:name => "Peter", age: 32).merge(:employee_id => 345)
     
-    expect(person.merge(:employee_id => 345)).to be_an_instance_of Hash
+    expect(person).to be_an_instance_of Person
+    expect(person[:employee_id]).to be 345
 
     Hash.instance_methods.each do |method|
-      next if described_class::MUTATING_METHODS.key?(method)
+      next if described_class::MUTATING_METHODS.include?(method)
       expect(person.respond_to?(method)).to be true
     end
   end
