@@ -37,7 +37,7 @@ Or install it yourself as:
 
 ## See Also
 
-- (Dry Struct)[https://dry-rb.org/gems/dry-struct]
+- [Dry Struct](https://dry-rb.org/gems/dry-struct)
 
 ## License
 
