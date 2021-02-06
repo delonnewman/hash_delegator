@@ -1,30 +1,52 @@
-#require "hash_delegator/version"
+require "hash_delegator/version"
 
 # Provides delegation and basic validation for Hashes
 class HashDelegator
   class << self
-    @@required_attributes = nil
     def required_attributes
-      @@required_attributes
+      return @required_attributes if @required_attributes
+
+      superclass.required_attributes if superclass.respond_to?(:required_attributes)
     end
 
     def require(*attributes)
-      if @@required_attributes.nil?
-        @@required_attributes = attributes
+      if superclass.respond_to?(:required_attributes) && !superclass.required_attributes.nil?
+        @required_attributes = superclass.required_attributes + attributes
       else
-        @@required_attributes += attributes
+        @required_attributes = attributes
       end
 
       self
     end
 
-    def transform_keys(&block)
-      @@key_transformer = block
+    def default(value = nil, &block)
+      if block
+        @default_value = block
+        return self
+      end
+
+      case value
+      when Proc
+        @default_value = value
+      else
+        @default_value = value
+      end
     end
 
-    @@key_transformer = nil
+    def default_value
+      return @default_value if @default_value
+
+      superclass.default_value if superclass.respond_to?(:default_value)
+    end
+
+    def transform_keys(&block)
+      @key_transformer = block
+    end
+
     def key_transformer
-      @@key_transformer
+      return @key_transformer if @key_transformer
+      
+      superclass.key_transformer if superclass.respond_to?(:key_transformer)
     end
 
     def [](option)
@@ -54,11 +76,18 @@ class HashDelegator
   def initialize(hash)
     raise "HashDelegator should not be initialized" if self.class == HashDelegator
 
-    @hash = hash
+    @hash = hash.dup
     @hash = @hash.transform_keys(&self.class.key_transformer) if self.class.key_transformer
+
+    if Proc === self.class.default_value
+      @hash.default_proc = self.class.default_value
+    else
+      @hash.default = self.class.default_value
+    end
 
     if self.class.required_attributes
       self.class.required_attributes.each do |attribute|
+        attribute = self.class.key_transformer.call(attribute) if self.class.key_transformer
         raise "#{attribute.inspect} is required, but is missing" unless key?(attribute)
       end
     end

@@ -1,3 +1,3 @@
-module HashDelegator
+class HashDelegator
   VERSION = "0.1.0"
 end
