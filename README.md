@@ -21,7 +21,15 @@ person.age # => 32
 person.name # => "Mary Lamb"
 
 person.merge!(favorite_food: "Thai") # => NoMethodError
-person.merge(favorite_food: "Thai") # => { first_name: "Mary", last_name: "Lamb", age: 32 }
+person.merge(favorite_food: "Thai") # => #<Person { first_name: "Mary", last_name: "Lamb", age: 32 }>
+
+# respects inheritance
+class Employee < Person
+  require :employee_id
+end
+
+Employee.new(age: 32, employee_id: 1234) # => Error, first_name attribute is required
+Employee.new(first_name: "John", last_name: "Smith", age: 23, employee_id: 3456) # => #<Employee ...>
 ```
 
 ## Installation
