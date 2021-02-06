@@ -2,7 +2,7 @@
 
 # HashDelegator
 
-Provides delegation and basic validation to hashes.
+Thread-safe immutable objects that provide delegation and basic validation to hashes.
 
 ## Synopsis
 
