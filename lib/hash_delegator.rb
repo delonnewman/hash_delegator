@@ -101,8 +101,11 @@ class HashDelegator
   def initialize(hash)
     raise "HashDelegator should not be initialized" if self.class == HashDelegator
 
-    @hash = hash.dup
-    @hash = @hash.transform_keys(&self.class.key_transformer) if self.class.key_transformer
+    if self.class.key_transformer
+      @hash = hash.transform_keys(&self.class.key_transformer)
+    else
+      @hash = hash.dup
+    end
 
     if Proc === self.class.default_value
       @hash.default_proc = self.class.default_value
