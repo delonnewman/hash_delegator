@@ -98,11 +98,16 @@ class HashDelegator
     :slice
   ].freeze
 
-  def initialize(hash)
+  EMPTY_HASH = {}.freeze
+  private_constant :EMPTY_HASH
+
+  def initialize(hash = EMPTY_HASH)
     raise "HashDelegator should not be initialized" if self.class == HashDelegator
 
     if self.class.key_transformer
       @hash = hash.transform_keys(&self.class.key_transformer)
+    elsif hash.frozen?
+      @hash = hash
     else
       @hash = hash.dup
     end
@@ -152,6 +157,22 @@ class HashDelegator
     end
 
     raise NoMethodError, "undefined method `#{method}' for #{self}:#{self.class}"
+  end
+  
+  def hash
+    @hash.hash
+  end
+
+  def eql?(other)
+    @hash.hash == other.hash
+  end
+
+  def ==(other)
+    other.is_a?(self.class) && @hash.hash == other.hash
+  end
+
+  def ===(other)
+    @hash.hash == other.hash
   end
 
   private
