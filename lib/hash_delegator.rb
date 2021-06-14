@@ -1,5 +1,8 @@
-require 'hash_delegator/version'
+# frozen_string_literal: true
+
 require 'set'
+require 'core_ext'
+require 'hash_delegator/version'
 
 # Provides delegation and basic validation for Hashes
 class HashDelegator
