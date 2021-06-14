@@ -1,1 +1,3 @@
-- v0.1.1 Initial Release
+# HashDelegator Changelog
+
+## v0.1.1 Initial Release

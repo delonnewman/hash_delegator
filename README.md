@@ -8,7 +8,7 @@ Thread-safe immutable objects that provide delegation and basic validation to ha
 
 ```ruby
 class Person < HashDelegator
-  require :first_name, :last_name
+  required :first_name, :last_name
   transform_keys(&:to_sym)
 
   def name
@@ -26,7 +26,7 @@ person.merge(favorite_food: "Thai") # => #<Person { first_name: "Mary", last_nam
 
 # respects inheritance
 class Employee < Person
-  require :employee_id
+  required :employee_id
 end
 
 Employee.new(age: 32, employee_id: 1234) # => Error, first_name attribute is required
