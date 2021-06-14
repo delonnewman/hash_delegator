@@ -1,3 +1,3 @@
 # HashDelegator Changelog
 
-## v0.1.1 Initial Release
+## v0.1.2 Initial Release
