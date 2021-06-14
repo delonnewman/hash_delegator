@@ -24,8 +24,6 @@ person.name # => "Mary Lamb"
 person.merge!(favorite_food: "Thai") # => NoMethodError
 person.merge(favorite_food: "Thai") # => #<Person { first_name: "Mary", last_name: "Lamb", age: 32 }>
 
-
-
 # respects inheritance
 class Employee < Person
   require :employee_id
