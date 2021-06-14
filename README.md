@@ -20,8 +20,11 @@ person = Person.new(first_name: "Mary", last_name: "Lamb", age: 32)
 person.age # => 32
 person.name # => "Mary Lamb"
 
+# it supports all non-mutating methods of Hash
 person.merge!(favorite_food: "Thai") # => NoMethodError
 person.merge(favorite_food: "Thai") # => #<Person { first_name: "Mary", last_name: "Lamb", age: 32 }>
+
+
 
 # respects inheritance
 class Employee < Person
