@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Delon Newman"]
   spec.email         = ["contact@delonnewman.name"]
 
-  spec.summary       = %q{Method delegation to a hash}
+  spec.summary       = %q{Thread-safe immutable objects that provide delegation and basic validation to hashes.}
   spec.description   = spec.summary
   spec.homepage      = "https://github.com/delonnewman/hash_delegator"
   spec.license       = "MIT"
@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["changelog_uri"] = "#{spec.homepage}#changelog"
+  spec.metadata["documentation_uri"] = "https://www.rubydoc.info/gems/hash_delegator"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
