@@ -33,6 +33,10 @@ Employee.new(age: 32, employee_id: 1234) # => Error, first_name attribute is req
 Employee.new(first_name: "John", last_name: "Smith", age: 23, employee_id: 3456) # => #<Employee ...>
 ```
 
+## Why?
+
+Because generality...
+
 ## Installation
 
 Add this line to your application's Gemfile:
